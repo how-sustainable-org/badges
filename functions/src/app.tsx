@@ -14,7 +14,7 @@ export const app = express();
 
 app.get("/:company/badge/:size/badge.svg", async (request, response) => {
   const { company, size } = request.params;
-  const ranking = 93;
+  const ranking = await getCompanyRanking(company);
 
   let svg;
   if (size === "small") {
