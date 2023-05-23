@@ -9,8 +9,7 @@ COPY functions/package*.json ./
 
 # Install the dependencies
 #RUN npm ci --only=production
-#RUN yarn build
-RUN npm install
+RUN yarn build
 
 # Copy the rest of the project files to the container
 COPY . .

@@ -1,9 +1,9 @@
 version: '3.4'
 
 services:
-  frontend:
-    image: frontend
-    container_name: frontend-debug
+  badges:
+    image: badges
+    container_name: badges-debug
     build:
       context: .
       dockerfile: ./functions/Dockerfile
