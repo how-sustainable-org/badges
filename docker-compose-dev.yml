@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  frontend:
+    image: frontend
+    container_name: frontend-dev
+    build:
+      context: .
+      dockerfile: ./functions/Dockerfile
+    environment:
+      NODE_ENV: development
+      API_SECRET_KEY: HSIv0qtRxUTCLizJdm2WD
+    ports:
+      - 8410:3000
+    expose:
+      - "8410"
+    restart: "no"

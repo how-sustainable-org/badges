@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  frontend:
+    image: frontend
+    container_name: frontend-debug
+    build:
+      context: .
+      dockerfile: ./functions/Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 8410:3000
+      - 9229:9229
+    command: ["node", "--inspect=0.0.0.0:9229", "index.js"]
