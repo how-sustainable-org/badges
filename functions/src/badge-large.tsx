@@ -149,7 +149,7 @@ export function BadgeLarge() {
             letterSpacing: 0.15,
           }}
         >
-          SunPower is in the
+          Company is in the
           <span
             style={{
               color: colors.emerald[400],

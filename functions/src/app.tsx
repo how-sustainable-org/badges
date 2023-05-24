@@ -3,9 +3,10 @@ import yoga from "yoga-layout-prebuilt";
 import { readFile } from "fs/promises";
 
 import satori, { init } from "satori/wasm";
-import { getCompanyRanking } from "./how-sustainable-client";
+import { getCompanyRanking, getCompanyData } from "./how-sustainable-client";
 import { dmSans, dmSerifDisplay, loadFonts } from "./load-fonts";
 import { BadgeSmall } from "./badge-small";
+import { BadgeMedium } from "./badge-medium";
 import { BadgeLarge } from "./badge-large";
 
 init(yoga);
@@ -14,13 +15,20 @@ export const app = express();
 
 app.get("/:company/badge/:size/badge.svg", async (request, response) => {
   const { company, size } = request.params;
-  const ranking = await getCompanyRanking(company);
 
   let svg;
   if (size === "small") {
+    const ranking = await getCompanyRanking(company);
     svg = await satori(<BadgeSmall ranking={ranking} />, {
       width: 120,
       height: 120,
+      fonts: await loadFonts(),
+    });
+  } else if (size === "medium") {
+    const scores = await getCompanyData(company);
+    svg = await satori(<BadgeMedium scores={scores} />, {
+      width: 340,
+      height: 340,
       fonts: await loadFonts(),
     });
   } else {
