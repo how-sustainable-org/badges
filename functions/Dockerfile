@@ -1,23 +1,16 @@
-# Use the official Node.js base image
-FROM node:16-alpine
-
-# Set the working directory inside the container
+# Stage 1: Builder
+FROM node:16-alpine AS builder
 WORKDIR /app
-
-# Copy the package.json and package-lock.json files to the container
-COPY functions/package*.json ./
-
-# Install the dependencies
-#RUN npm ci --only=production
-RUN yarn build
-
-# Copy the rest of the project files to the container
-COPY . .
-
-ENV NODE_ENV production
-
-# Build the code
+COPY ./functions ./
+RUN npm install
 RUN npm run build
 
-# Set the command to run the microservice
+# Stage 2: Final
+FROM node:16-alpine AS final
+WORKDIR /app
+COPY --from=builder /app/lib ./lib
+COPY ./functions/assets ./assets
+COPY ./functions/package.json .
+COPY ./functions/package-lock.json .
+RUN npm install --production
 CMD [ "npm", "start" ]
